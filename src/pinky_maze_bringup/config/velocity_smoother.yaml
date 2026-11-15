@@ -1,0 +1,17 @@
+# Nav2 velocity_smoother 설정 (로봇 쪽 명령 안전 단계)
+# 입력 /cmd_vel_nav (제어 PC) -> 출력 /cmd_vel (바퀴)
+velocity_smoother:
+  ros__parameters:
+    use_sim_time: true
+    smoothing_frequency: 20.0        # 출력 주기 (Hz)
+    scale_velocities: false
+    feedback: "OPEN_LOOP"            # 명령값 기준으로 가속 제한
+    max_velocity: [0.25, 0.0, 1.5]   # [x m/s, y, 회전 rad/s], 핑키 프로 시뮬 한계
+    min_velocity: [-0.25, 0.0, -1.5]
+    max_accel: [0.5, 0.0, 3.0]       # 급출발 방지
+    max_decel: [-0.5, 0.0, -3.0]     # 급정지 방지
+    odom_topic: "odom"
+    odom_duration: 0.1
+    deadband_velocity: [0.0, 0.0, 0.0]
+    velocity_timeout: 0.2            # 명령이 0.2초 끊기면 정지 명령
+    enable_stamped_cmd_vel: false    # 브리지 /cmd_vel 은 Twist
