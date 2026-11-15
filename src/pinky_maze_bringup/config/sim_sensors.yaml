@@ -1,0 +1,31 @@
+# 시뮬 센서 설정 (pinky_maze_sim sim_bridge --sensor-config)
+# 잡음/ADC 값은 실물 측정 전의 초안, 실물 측정 후 조정
+seed: 0
+adc_rate: 30.0                                  # 초음파/적외선 주기 (실물: ADC 5채널 x 6ms 읽기 -> 약 30Hz)
+
+imu:
+  link: imu_link                                # 실물 노드 frame_id 와 같음
+  rate: 100.0                                   # 실물 노드 100 Hz
+  gyro_noise_std: 0.002                         # rad/s
+  gyro_bias_std: 0.003                          # rad/s, 시작 시 한 번 정하는 치우침
+  accel_noise_std: 0.05                         # m/s^2
+
+ultrasonic:
+  link: ultrasonic_link                         # 실물 노드 frame_id 와 같음
+  field_of_view: 0.26                           # rad, 실물 노드 값
+  rays: 7                                       # 시야각 안 광선 수
+  min_range: 0.02                               # m, 실물 노드 값
+  max_range: 3.0                                # m, 실물 노드 값 (ADC 계산식상 실제 최대 약 1.03 m)
+  noise_std: 0.005                              # m
+
+ir:
+  links: [ir_l_link, ir_mid_link, ir_r_link]    # 발행 순서 (실물 확인 후 조정)
+  max_distance: 0.05                            # m, 바닥으로 쏘는 광선 길이
+  floor_adc: 3000                               # 바닥 ADC 값 (실물 측정 후 조정)
+  tape_adc: 500                                 # 테이프 ADC 값 (실물 측정 후 조정)
+  noise_std: 20.0                               # ADC 단위
+  tapes: []                                     # [x, y, 길이, 폭, yaw] (월드 좌표 m, rad)
+
+lidar:
+  noise_std: 0.01                               # m (공칭 정확도 +-30 mm, 실측 후 조정)
+  dropout: 0.0                                  # 측정 누락 비율
