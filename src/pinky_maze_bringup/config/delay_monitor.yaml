@@ -1,0 +1,47 @@
+# src/pinky_maze_bringup/config/delay_monitor.yaml
+# 지연 측정 노드 (pinky_maze_control delay_monitor) 설정
+# - 토픽별 기대 주기 (Hz) 와 header 유무, 지연·주기 판정 기준
+# - use_sim_time 은 실행할 때 지정 (시뮬 true, 실물 false)
+delay_monitor:
+  ros__parameters:
+    hardware_id: pinky_maze
+    diagnostic_updater:
+      period: 1.0            # /diagnostics 발행 주기 (s)
+    max_delay: 0.2           # 지연이 이보다 크면 ERROR (s), velocity_smoother 타임아웃과 같음
+    min_delay: -1.0          # 시간 도장이 이보다 미래면 ERROR (s), 표준 기본값
+    freq_tolerance: 0.1      # 주기가 기대값의 ±10 % 밖이면 WARN (표준 기본값)
+    window_size: 5           # 주기 계산에 쓰는 진단 횟수 (표준 기본값)
+    verbose: true            # OK 가 아닌 진단을 로그로 출력
+
+    topic_keys: [scan, odom, imu, ultrasonic, ir, camera]
+
+    scan:
+      topic: /scan
+      type: sensor_msgs/msg/LaserScan
+      rate: 10.0
+      stamped: true
+    odom:
+      topic: /odom
+      type: nav_msgs/msg/Odometry
+      rate: 50.0
+      stamped: true
+    imu:
+      topic: /imu_raw
+      type: sensor_msgs/msg/Imu
+      rate: 100.0
+      stamped: true
+    ultrasonic:
+      topic: /us_sensor/range
+      type: sensor_msgs/msg/Range
+      rate: 30.0
+      stamped: true
+    ir:
+      topic: /ir_sensor/range
+      type: std_msgs/msg/UInt16MultiArray
+      rate: 30.0
+      stamped: false         # header 없음 -> 주기만 감시
+    camera:
+      topic: /camera/image_raw/compressed
+      type: sensor_msgs/msg/CompressedImage
+      rate: 15.0
+      stamped: true
