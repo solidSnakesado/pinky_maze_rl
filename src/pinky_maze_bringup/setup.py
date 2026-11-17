@@ -26,6 +26,8 @@ setup(
             glob('launch/*.launch.py')),                                            # robot_sim.launch.py 등
         (os.path.join('share', package_name, 'config'),
             glob('config/*.yaml')),                                                 # velocity_smoother, sim_sensors
+        (os.path.join('share', package_name, 'worlds'),
+            glob('worlds/*.world') + glob('worlds/*.png')),                         # 데모 미로 월드, 벽돌 무늬
     ],
     install_requires=['setuptools'],
     zip_safe=True,
